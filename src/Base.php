@@ -118,20 +118,15 @@ class Base {
         $this->fields = $fields;
         set_time_limit(0);
 
-        $qs = [];
-        foreach ($fields as $k => $v) {
-            $qs[] = $k . '=' . urlencode($v);
-        }
-
-        $request = implode('&', $qs);
+        $request = http_build_query($fields, '', '&');
 
         if (false === $ch = curl_init(self::BASE_URL . $path)) {
             throw new RequestException(sprintf('Request initialization to "%s" failed.', $path));
         }
 
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+        curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
 
         if (false === $result = curl_exec($ch)) {
             curl_close($ch);
