@@ -34,11 +34,11 @@ class Sms extends Base
             $data['nom'] = $this->campaignName;
         }
 
-        if ($this->sendingTime > (new DateTime())) {
+        if (!empty($this->sendingTime) && $this->sendingTime > (new DateTime())) {
             $data['date'] = $this->sendingTime->getTimestamp();
         }
 
-        if ($this->callbackUrl) {
+        if (!empty($this->callbackUrl)) {
             $data['url'] = $this->callbackUrl;
         }
 

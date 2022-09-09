@@ -26,9 +26,9 @@ class Base {
     public array $smsRecipients = [];
 
     /**
-     * @var DateTimeInterface
+     * @var ?DateTimeInterface
      */
-    public DateTimeInterface $sendingTime;
+    public ?DateTimeInterface $sendingTime = null;
 
     /**
      * Sender of the message (if the user allows it), 3-11 alphanumeric characters (a-zA-Z).
@@ -54,9 +54,9 @@ class Base {
     /**
      * callback URL
      *
-     * @var string
+     * @var ?string
      */
-    public string $callbackUrl;
+    public ?string $callbackUrl = null;
 
     private array $fields = [];
 
