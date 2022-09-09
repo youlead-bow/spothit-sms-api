@@ -1,21 +1,21 @@
 {
-    "name": "partikule/spothit-sms-api",
+    "name": "youlead-bow/spothit-sms-api",
     "description": "Spothit Library",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Michel-Ange Kuntz",
-            "email": "contact@partikule.net"
+            "name": "Flavien Bucheton",
+            "email": "service-client@youlead.fr"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Partikule\\Spothit\\": "src/"
+            "Spothit\\": "src/"
         }
     },
     "require": {
-        "php": ">=5.4",
+        "php": ">=8.0",
         "ext-curl": "*",
         "ext-json": "*"
     }

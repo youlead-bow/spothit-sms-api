@@ -1,8 +1,8 @@
 <?php
 
-namespace Partikule\Spothit\Client;
+namespace Spothit\Client;
 
-use Partikule\Spothit\Base;
+use Spothit\Base;
 
 /**
  * Spothit API client.
@@ -13,23 +13,29 @@ class Sms extends Base
     /**
      * Sends a simple SMS.
      *
-     * @param string $sender Sender of the message (if the user allows it), 3-11 alphanumeric characters (a-zA-Z).
      * @param string $smsText Message text (maximum 459 characters).
      *
      * @return array
      *
      * @see https://www.spot-hit.fr/documentation-api#chapter2para1
      */
-    public function send($smsText)
+    public function send(string $smsText): array
     {
         $data = [
             'key' => $this->apiKey,
             'message' => $smsText,
             'destinataires' => implode(',', $this->smsRecipients),
-            'nom' => $this->campaignName,
             'expediteur' => $this->smsSender,
             'smslong' => $this->allowLongSms
         ];
+
+        if (!empty($this->campaignName)) {
+            $data['nom'] = $this->campaignName;
+        }
+
+        if ($this->sendingTime > (new \DateTime())) {
+            $data['date'] = $this->sendingTime->getTimestamp();
+        }
 
         if ($this->callbackUrl) {
             $data['url'] = $this->callbackUrl;

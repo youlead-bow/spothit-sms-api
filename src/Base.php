@@ -1,10 +1,11 @@
 <?php 
 
-namespace Partikule\Spothit;
+namespace Spothit;
 
-use Partikule\Spothit\Exception\RequestException;
-use Partikule\Spothit\Exception\ResponseException;
-use Partikule\Spothit\Exception\ResponseCodeException;
+use DateTimeInterface;
+use Spothit\Exception\RequestException;
+use Spothit\Exception\ResponseException;
+use Spothit\Exception\ResponseCodeException;
 
 class Base {
 
@@ -15,47 +16,47 @@ class Base {
      *
      * @var string
      */
-    public $apiKey;
+    public string $apiKey;
 
     /**
      * Numbers in international format + XXZZZZZ.
      *
      * @var array
      */
-    public $smsRecipients = [];
+    public array $smsRecipients = [];
 
     /**
-     * @var DateTime
+     * @var DateTimeInterface
      */
-    public $sendingTime;
+    public DateTimeInterface $sendingTime;
 
     /**
      * Sender of the message (if the user allows it), 3-11 alphanumeric characters (a-zA-Z).
      *
      * @var string
      */
-    public $smsSender = 'Spot-Hit';
+    public string $smsSender = 'Spot-Hit';
 
     /**
      * Campaign identifier used for Spot-Hit administration panel and not visible to the recipients.
      *
-     * @var string
+     * @var ?string
      */
-    public $campaignName = null;
+    public ?string $campaignName = null;
 
     /**
      * Allow long SMS
      *
      * @var bool
      */
-    public $allowLongSms = 1;
+    public int|bool $allowLongSms = 1;
 
     /**
      * callback URL
      *
      * @var string
      */
-    public $callbackUrl;
+    public string $callbackUrl;
 
 
     public function __construct($apiKey)
@@ -64,29 +65,34 @@ class Base {
         $this->sendingTime = new \DateTime();
     }
 
-    public function setSmsRecipients(array $smsRecipients)
+    public function setSmsRecipients(array $smsRecipients): void
     {
         $this->smsRecipients = $smsRecipients;
     }
 
-    public function setSendingTime(\DateTime $sendingTime)
+    public function setSendingTime(\DateTime $sendingTime): void
     {
         $this->sendingTime = $sendingTime;
     }
 
-    public function setSmsSender($smsSender)
+    public function setSmsSender($smsSender): void
     {
         $this->smsSender = $smsSender;
     }
 
-    public function setCampaignName($campaignName)
+    public function setCampaignName($campaignName): void
     {
         $this->campaignName = $campaignName;
     }
 
-    public function setCallbackUrl($url)
+    public function setCallbackUrl($url): void
     {
         $this->callbackUrl = $url;
+    }
+
+    public function setAllowLongSms(bool|int $allowLongSms): void
+    {
+        $this->allowLongSms = $allowLongSms;
     }
 
     public function httpRequest($path, array $fields)
@@ -130,7 +136,6 @@ class Base {
 
         $responseArray = json_decode($result, true);
 
-        // If 'resultat' == 1, the message was send properly
         if ($responseArray['resultat'] != 1) {
             throw new ResponseCodeException(sprintf(
                 'Server returned "%s" error code.',
@@ -148,7 +153,7 @@ class Base {
      *
      * @see https://www.spot-hit.fr/api/credits
      */
-    public function getCredit()
+    public function getCredit(): array
     {
         $data = [
             'key' => $this->apiKey,

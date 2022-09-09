@@ -7,7 +7,7 @@ Spot-hit SMS API PHP client.
 The recommended way to install Spot-hit SMS API PHP client is through composer:
 
 ```bash
-$ composer require partikule/spothit-sms-api
+$ composer require youlead-bow/spothit-sms-api
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ $ composer require partikule/spothit-sms-api
 ```php
 <?php
 
-$client = new Spothit\Api\Client('***API_KEY***');
+$client = new Spothit\Client\Sms('***API_KEY***');
 
 $client->setSmsRecipients(['+336********']);
 $client->setSmsSender('AnySender');

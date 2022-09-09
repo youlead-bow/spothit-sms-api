@@ -1,6 +1,6 @@
 <?php
 
-namespace Partikule\Spothit\Exception;
+namespace Spothit\Exception;
 
 class RequestException extends \RuntimeException
 {
