@@ -58,42 +58,54 @@ class Base {
      */
     public string $callbackUrl;
 
-    private array $fields;
+    private array $fields = [];
 
-    public function __construct($apiKey)
+    public function __construct(string $apiKey)
     {
         $this->apiKey = $apiKey;
         $this->sendingTime = new \DateTime();
     }
 
-    public function setSmsRecipients(array $smsRecipients): void
+    public function setSmsRecipients(array $smsRecipients): self
     {
         $this->smsRecipients = $smsRecipients;
+
+        return $this;
     }
 
-    public function setSendingTime(\DateTime $sendingTime): void
+    public function setSendingTime(\DateTime $sendingTime): self
     {
         $this->sendingTime = $sendingTime;
+
+        return $this;
     }
 
-    public function setSmsSender($smsSender): void
+    public function setSmsSender(string $smsSender): self
     {
         $this->smsSender = $smsSender;
+
+        return $this;
     }
 
-    public function setCampaignName($campaignName): void
+    public function setCampaignName(string $campaignName): self
     {
         $this->campaignName = $campaignName;
+
+        return $this;
     }
 
-    public function setCallbackUrl($url): void
+    public function setCallbackUrl(string $url): self
     {
         $this->callbackUrl = $url;
+
+        return $this;
     }
 
-    public function setAllowLongSms(bool|int $allowLongSms): void
+    public function setAllowLongSms(bool|int $allowLongSms): self
     {
         $this->allowLongSms = $allowLongSms;
+
+        return $this;
     }
 
     public function getFields(): array
@@ -101,7 +113,7 @@ class Base {
         return $this->fields;
     }
 
-    public function httpRequest($path, array $fields)
+    public function httpRequest(string $path, array $fields): array
     {
         $this->fields = $fields;
         set_time_limit(0);
