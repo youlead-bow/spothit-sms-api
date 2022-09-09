@@ -58,6 +58,7 @@ class Base {
      */
     public string $callbackUrl;
 
+    private array $fields;
 
     public function __construct($apiKey)
     {
@@ -95,8 +96,14 @@ class Base {
         $this->allowLongSms = $allowLongSms;
     }
 
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
     public function httpRequest($path, array $fields)
     {
+        $this->fields = $fields;
         set_time_limit(0);
 
         $qs = [];
