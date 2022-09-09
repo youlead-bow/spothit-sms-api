@@ -2,6 +2,7 @@
 
 namespace Spothit\Client;
 
+use DateTime;
 use Spothit\Base;
 
 /**
@@ -33,7 +34,7 @@ class Sms extends Base
             $data['nom'] = $this->campaignName;
         }
 
-        if ($this->sendingTime > (new \DateTime())) {
+        if ($this->sendingTime > (new DateTime())) {
             $data['date'] = $this->sendingTime->getTimestamp();
         }
 
