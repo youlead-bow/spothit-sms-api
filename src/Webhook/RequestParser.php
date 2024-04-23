@@ -14,16 +14,16 @@ final class RequestParser extends AbstractRequestParser
 
     protected function getRequestMatcher(): RequestMatcherInterface
     {
-        return new MethodRequestMatcher('POST');
+        return new MethodRequestMatcher('GET');
     }
 
     protected function doParse(Request $request, #[\SensitiveParameter] string $secret): ?SmsEvent
     {
         $spothit = $request->request->all();
         if (
-            !isset($spothit['MessageStatus'])
-            || !isset($spothit['MessageSid'])
-            || !isset($spothit['To'])
+            !isset($spothit['statut'])
+            || !isset($spothit['id_message'])
+            || !isset($spothit['numero'])
         ) {
             throw new RejectWebhookException(406, 'Spothit est incorrect.');
         }
@@ -35,14 +35,14 @@ final class RequestParser extends AbstractRequestParser
             3 => null,                      // En cours
             4 => SmsEvent::FAILED,          // Echec
             5 => SmsEvent::FAILED,          // Expiré
-            default => throw new RejectWebhookException(406, sprintf('Évènement non supporté "%s".', $spothit['event'])),
+            default => throw new RejectWebhookException(406, sprintf('Évènement non supporté "%s".', $spothit['nom'])),
         };
         if (!$name) {
             return null;
         }
 
-        $event = new SmsEvent($name, $spothit['MessageSid'], $spothit);
-        $event->setRecipientPhone($spothit['To']);
+        $event = new SmsEvent($name, $spothit['id_message'], $spothit);
+        $event->setRecipientPhone($spothit['numero']);
 
         return $event;
     }
