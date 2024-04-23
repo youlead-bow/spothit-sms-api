@@ -35,7 +35,7 @@ final class RequestParser extends AbstractRequestParser
             3 => null,                      // En cours
             4 => SmsEvent::FAILED,          // Echec
             5 => SmsEvent::FAILED,          // Expiré
-            default => throw new RejectWebhookException(406, sprintf('Évènement non supporté "%s".', $spothit['nom'])),
+            default => throw new RejectWebhookException(406, sprintf('Évènement non supporté "%s".', $spothit['MessageStatus'])),
         };
         if (!$name) {
             return null;
